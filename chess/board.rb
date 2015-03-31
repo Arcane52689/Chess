@@ -14,8 +14,8 @@ class Board
     board
   end
 
-  def initialize
-    @grid = Array.new(8) { Array.new(8) }
+  def initialize(grid= Array.new(8) { Array.new(8) })
+    @grid = grid
 
   end
 
@@ -70,6 +70,16 @@ class Board
     self[start] = nil
   end
 
+
+  def dup
+    dup_board = Board.new
+    grid.each do |row|
+      row.each do |piece|
+        piece.dup(dup_board) unless piece.nil?
+      end
+    end
+    dup_board
+  end
 
 
   def occupied?(pos)

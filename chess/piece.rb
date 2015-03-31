@@ -29,4 +29,9 @@ class Piece
     x.between?(0,7) && y.between?(0,7)
   end
 
+  def dup(dup_board)
+    dup_board[@position] = self.class.new(@color, @position, dup_board)
+  end
+
+
 end
