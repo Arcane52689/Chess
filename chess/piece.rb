@@ -21,7 +21,6 @@ class Piece
     self.position = new_position
   end
 
-
   def in_board?(pos)
     x, y = pos
     x.between?(0,7) && y.between?(0,7)

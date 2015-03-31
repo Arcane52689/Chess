@@ -14,7 +14,6 @@ class SteppingPiece < Piece
   end
 
   def move_dirs
-    [[0,1]]
   end
 
   def check_space(pos)
