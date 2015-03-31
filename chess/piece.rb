@@ -19,4 +19,7 @@ class Piece
     color == other_piece.color
   end
 
+
+  
+
 end

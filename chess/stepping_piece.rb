@@ -7,7 +7,7 @@ class SteppingPiece < Piece
     x, y = position
     move_dirs.each do |(dx, dy)|
       new_position = [x + dx, y + dy]
-      result << new_position
+      result << new_position if board.in_board?(new_position)
     end
 
     result

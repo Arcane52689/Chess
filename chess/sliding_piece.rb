@@ -8,7 +8,7 @@ class SlidingPiece < Piece
     move_dirs.each do |(dx, dy)|
       1.upto(7) do |multiplier|
         new_position = [x + dx * multiplier, y + dy * multiplier]
-        result << new_position
+        result << new_position if board.in_board?(new_position)
       end
     end
 
