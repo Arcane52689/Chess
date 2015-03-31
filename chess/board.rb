@@ -1,3 +1,4 @@
+require_relative "piece.rb"
 require_relative "pawn.rb"
 require_relative "king.rb"
 require_relative "knight.rb"
@@ -7,9 +8,9 @@ class Board
 
   def self.test_board
     board = Board.new
-    board[[0,0]] = Pawn.new(:white,[0,0], self)
-    board[[0,4]] = King.new(:white,[0,4], self)
-    board[[1,6]] = Knight.new(:black, [1,6], self)
+    board[[0,0]] = Pawn.new(:white,[0,0], board)
+    board[[0,4]] = King.new(:white,[0,4], board)
+    board[[1,6]] = Knight.new(:black, [1,6], board)
     board
   end
 
