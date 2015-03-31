@@ -1,7 +1,3 @@
-require_relative "pawn.rb"
-require_relative "king.rb"
-require_relative "knight.rb"
-
 class Board
   attr_accessor :grid
 

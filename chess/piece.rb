@@ -1,6 +1,3 @@
-require_relative "board.rb"
-
-
 class Piece
   attr_reader :color, :board
   attr_accessor :position
@@ -35,13 +32,13 @@ class Piece
   end
 
   def move_into_check?(move_position)
-    dup_board = Board.dup
+    dup_board = board.dup
     dup_board.move!(@position, move_position)
     dup_board.in_check?(@color)
   end
 
   def valid_moves
-    moves.select { |move| !move_into_check(move) }
+    moves.select { |move| !move_into_check?(move) }
   end
 
 end
