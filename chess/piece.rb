@@ -9,6 +9,7 @@ class Piece
     @color = color
     @position = position
     @board = board
+    board[position] = self
   end
 
   def moves
@@ -33,5 +34,14 @@ class Piece
     dup_board[@position] = self.class.new(@color, @position, dup_board)
   end
 
+  def move_into_check?(move_position)
+    dup_board = Board.dup
+    dup_board.move!(@position, move_position)
+    dup_board.in_check?(@color)
+  end
+
+  def valid_moves
+    moves.select { |move| !move_into_check(move) }
+  end
 
 end

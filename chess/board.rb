@@ -8,9 +8,10 @@ class Board
 
   def self.test_board
     board = Board.new
-    board[[0,0]] = Pawn.new(:white,[0,0], board)
-    board[[0,4]] = King.new(:white,[0,4], board)
-    board[[1,6]] = Knight.new(:black, [1,6], board)
+    Pawn.new(:white,[1,0], board)
+    King.new(:white,[0,4], board)
+    Knight.new(:black, [3,6], board)
+    Pawn.new(:black, [2,1], board)
     board
   end
 
@@ -60,7 +61,6 @@ class Board
     result
   end
 
-
   def move(start, end_pos)
     raise "NO PIECE HERE" if self[start].nil?
     piece = self[start]
@@ -70,6 +70,14 @@ class Board
     self[start] = nil
   end
 
+  def move!(start, end_pos)
+    raise "NO PIECE HERE" if self[start].nil?
+    piece = self[start]
+    raise "CAN'T MOVE THERE" unless piece.moves.include?(end_pos)
+    self[end_pos] = piece
+    piece.move(end_pos)
+    self[start] = nil
+  end
 
   def dup
     dup_board = Board.new
