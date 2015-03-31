@@ -1,7 +1,13 @@
-
+require_relative "pawn.rb"
 
 class Board
   attr_accessor :grid
+
+  def self.test_board
+    board = Board.new
+    board[[0,0]] = Pawn.new(:white,[0,0], self)
+    board
+  end
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
@@ -40,6 +46,7 @@ class Board
     result = []
     8.times do |x|
       8.times do |y|
+        next if grid[x][y].nil?
         result << grid[x][y] if grid[x][y].color == color
       end
     end
@@ -53,12 +60,13 @@ class Board
     piece = self[start]
     raise "CAN'T MOVE THERE" unless piece.moves.include?(end_pos)
     self[end_pos] = piece
+    piece.move(end_pos)
     self[start] = nil
   end
 
   def in_board?(pos)
     x, y = pos
-    x.in_between?(0,7) && y.in_between?(0,7)
+    x.between?(0,7) && y.between?(0,7)
   end
 
   def occupied?(pos)

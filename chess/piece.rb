@@ -1,4 +1,4 @@
-
+require_relative "board.rb"
 
 
 class Piece
@@ -19,7 +19,11 @@ class Piece
     color == other_piece.color
   end
 
+  def move(new_position)
+    self.position = new_position
+  end
 
-  
+
+
 
 end
