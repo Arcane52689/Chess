@@ -89,5 +89,20 @@ class Board
     !self[pos].nil?
   end
 
+  def render
+    grid.map { |row| render_row(row) }
+  end
+
+  def render_row(row)
+    row.map do |piece|
+      if piece.nil?
+        "\u25A1"
+      else
+        piece.render
+      end
+    end.join
+
+  end
+
 
 end

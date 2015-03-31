@@ -10,4 +10,8 @@ class Bishop < SlidingPiece
     ]
   end
 
+  def render
+    color == :white ? "\u2657" : "\u265D"
+  end
+
 end

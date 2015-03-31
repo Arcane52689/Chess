@@ -31,6 +31,10 @@ class Pawn < Piece
     end
   end
 
+  def render
+    color == :white ? "\u2659" : "\u265F"
+  end
+
 
 
 
