@@ -1,4 +1,6 @@
 require_relative "pawn.rb"
+require_relative "king.rb"
+require_relative "knight.rb"
 
 class Board
   attr_accessor :grid
@@ -6,6 +8,8 @@ class Board
   def self.test_board
     board = Board.new
     board[[0,0]] = Pawn.new(:white,[0,0], self)
+    board[[0,4]] = King.new(:white,[0,4], self)
+    board[[1,6]] = Knight.new(:black, [1,6], self)
     board
   end
 
@@ -33,6 +37,7 @@ class Board
   def find_king(color)
     8.times do |x|
       8.times do |y|
+        next if grid[x][y].nil?
         return [x,y] if grid[x][y].color == color && grid[x][y].is_a?(King)
       end
     end
@@ -64,10 +69,7 @@ class Board
     self[start] = nil
   end
 
-  def in_board?(pos)
-    x, y = pos
-    x.between?(0,7) && y.between?(0,7)
-  end
+
 
   def occupied?(pos)
     !self[pos].nil?
