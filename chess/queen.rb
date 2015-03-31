@@ -14,7 +14,7 @@ class Queen < SlidingPiece
   end
 
   def render
-    color == :white ? "\u2655	" : "\u265B"
+    color == :white ? "\u2655" : "\u265B"
   end
 
 end
