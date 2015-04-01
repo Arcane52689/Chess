@@ -20,8 +20,7 @@ class Game
   def play
     loop do
       break if game_over?
-      move = get_move
-      board.move(move[0],move[1])
+      play_turn
       self.current_player = next_player
     end
   end
@@ -32,6 +31,16 @@ class Game
 
   def game_over?
     board.no_valid_moves_left?(current_player.color)
+  end
+
+  def play_turn
+    begin
+      move = get_move
+      board.move(move[0],move[1])
+    rescue
+      puts "INCORRECT MOVE"
+      retry
+    end
   end
 
 end

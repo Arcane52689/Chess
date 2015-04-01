@@ -1,6 +1,15 @@
 class Board
   attr_accessor :grid
-
+  UTF_LETTERS = [
+    "\u0041",
+    "\u0042",
+    "\u0043",
+    "\u0044",
+    "\u0045",
+    "\u0046",
+    "\u0047",
+    "\u0048"
+  ]
 
   def self.game_board
     board = Board.new
@@ -104,7 +113,7 @@ class Board
   end
 
   def render
-    grid.map { |row| render_row(row) }
+    UTF_LETTERS + grid.map { |row| render_row(row) }
   end
 
   def render_row(row)
