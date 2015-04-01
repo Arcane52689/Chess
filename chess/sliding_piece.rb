@@ -19,6 +19,7 @@ class SlidingPiece < Piece
 
 
   def move_dirs
+    raise NotImplementedError
   end
 
   def moves_in_dirs(dx,dy)

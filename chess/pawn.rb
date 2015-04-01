@@ -15,7 +15,7 @@ class Pawn < Piece
     result = [[x + dx, y]]
 
     result << [x + 2 * dx, y] unless @moved
-    result.select! { |pos| check_move?(pos) }
+    result.select { |pos| check_move?(pos) }
   end
 
   def diagonals
@@ -38,5 +38,5 @@ class Pawn < Piece
   def render
     color == :white ? "\u2659" : "\u265F"
   end
-  
+
 end

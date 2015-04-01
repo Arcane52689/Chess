@@ -12,11 +12,11 @@ class SteppingPiece < Piece
   end
 
   def move_dirs
-    raise "NOT IMPLEMENTED"
+    raise NotImplementedError
   end
 
   def check_space(pos)
-    in_board?(new_position) &&
+    in_board?(pos) &&
       (!board.occupied?(pos) || !same_color?(board[pos]))
   end
 

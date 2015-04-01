@@ -28,12 +28,15 @@ class HumanPlayer
     puts prompt
     gets.chomp.upcase.split("")
   end
-
-  def get_move
-    start_pos = ask_move(START_PROMPT)
-    end_pos = ask_move(END_PROMPT)
-    [start_pos, end_pos].map { |position| convert_position(position) }
+  
+  def get_start
+    convert_position(ask_move(START_PROMPT))
   end
+
+  def get_end
+    convert_position(ask_move(END_PROMPT))
+  end
+
 
   def convert_position(position)
     col = MOVE_HASH[position[0]]

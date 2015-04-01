@@ -2,18 +2,20 @@ require "Colorize"
 
 class Board
   attr_accessor :grid
-  UTF_LETTERS = [
-    "\u0041",
-    "\u0042",
-    "\u0043",
-    "\u0044",
-    "\u0045",
-    "\u0046",
-    "\u0047",
-    "\u0048"
-  ]
 
-  def self.game_board
+  UTF_LETTERS = [
+    " ",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ].join
+
+  def self.default_game_board
     board = Board.new
     board.place_kings
     board.place_queens
@@ -54,36 +56,26 @@ class Board
     pieces.any? { |piece| piece.moves.include?(position) }
   end
 
-  def find_king(color)
-    8.times do |x|
-      8.times do |y|
-        next if grid[x][y].nil?
-        return [x,y] if grid[x][y].color == color && grid[x][y].is_a?(King)
-      end
-    end
-  end
-
   def swap(color)
     color == :white ? :black : :white
   end
 
-  def find_pieces(color)
-    result = []
-    8.times do |x|
-      8.times do |y|
-        next if grid[x][y].nil?
-        result << grid[x][y] if grid[x][y].color == color
-      end
-    end
+  def get_pieces
+    grid.flatten.compact
+  end
 
-    result
+  def find_pieces(color)
+    get_pieces.select { |piece| piece.color == color }
+  end
+
+  def find_king(color)
+    king = find_pieces(color).select { |piece| piece.is_a?(King) }.first
+    king.position
   end
 
   def move(start, end_pos, color)
-    raise "NO PIECE HERE" if self[start].nil?
     piece = self[start]
-    #raise "DON'T TOUCH MY STUFF" unless piece.color == color
-    p piece.valid_moves
+    raise "DON'T TOUCH MY STUFF" unless piece.color == color
     raise "CAN'T MOVE THERE" unless piece.valid_moves.include?(end_pos)
     self[end_pos] = piece
     piece.move(end_pos)
@@ -153,9 +145,13 @@ class Board
   end
 
   def display
-    colored_background.map do |row|
-      row.join
-    end.join("\n")
+    result =[UTF_LETTERS]
+
+    colored_background.each_with_index do |row,idx|
+      result << row.unshift((idx + 1).to_s).join
+    end
+    result.join("\n")
+    result
   end
 
 
