@@ -113,7 +113,7 @@ class Board
   end
 
   def render
-    UTF_LETTERS + grid.map { |row| render_row(row) }
+    [UTF_LETTERS.join] + grid.map { |row| render_row(row) }
   end
 
   def render_row(row)
@@ -130,7 +130,7 @@ class Board
     in_check?(color) || no_valid_moves_left?(color)
   end
 
-  def no_valid_moves_left(color)
+  def no_valid_moves_left?(color)
     find_pieces(color).none? { |piece| piece.valid_moves.any? }
   end
 

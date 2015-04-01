@@ -13,6 +13,8 @@ class HumanPlayer
     "G" => 6,
     "H" => 7
   }
+  START_PROMPT = "Please enter the position of the piece you would like to move"
+  END_PROMPT = "Please enter the position you would like to move that piece to"
 
   def initialize(name)
     @name = name
@@ -22,9 +24,14 @@ class HumanPlayer
     self.color = color
   end
 
+  def ask_move(prompt)
+    puts prompt
+    gets.chomp.split("")
+  end
+
   def get_move
-    start_pos = gets.chomp.split("")
-    end_pos = gets.chomp.split("")
+    start_pos = ask_move(START_PROMPT)
+    end_pos = ask_move(END_PROMPT)
     [start_pos, end_pos].map { |position| convert_position(position) }
   end
 

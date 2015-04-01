@@ -1,8 +1,14 @@
-require 'load_file.rb'
+require_relative 'load_file.rb'
 
 class Game
 
   attr_accessor  :player1, :player2, :current_player, :board
+
+  def self.testing
+    sj = HumanPlayer.new("sj")
+    thomas  = HumanPlayer.new("thomas")
+    Game.new(sj, thomas).play
+  end
 
   def initialize(player1, player2)
     @player1 = player1
@@ -20,6 +26,7 @@ class Game
   def play
     loop do
       break if game_over?
+      display_board
       play_turn
       self.current_player = next_player
     end
@@ -31,6 +38,11 @@ class Game
 
   def game_over?
     board.no_valid_moves_left?(current_player.color)
+  end
+
+  def display_board
+    puts board.render
+    puts "#{current_player.name}, it's your turn"
   end
 
   def play_turn
