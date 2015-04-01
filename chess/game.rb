@@ -41,7 +41,7 @@ class Game
   end
 
   def display_board
-    puts board.render
+    puts board.display
     puts "#{current_player.name}, it's your turn"
   end
 

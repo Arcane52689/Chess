@@ -1,3 +1,5 @@
+require "Colorize"
+
 class Board
   attr_accessor :grid
   UTF_LETTERS = [
@@ -115,17 +117,17 @@ class Board
   end
 
   def render
-    [UTF_LETTERS.join] + grid.map { |row| render_row(row) }
+    grid.map { |row| render_row(row) }
   end
 
   def render_row(row)
     row.map do |piece|
       if piece.nil?
-        "\u25A1"
+        " "
       else
         piece.render
       end
-    end.join
+    end
   end
 
   def checkmate?(color)
@@ -136,47 +138,68 @@ class Board
     find_pieces(color).none? { |piece| piece.valid_moves.any? }
   end
 
+  def colored_background
+    render_grid = self.render
+    8.times do |i|
+      8.times do |j|
+        if (i + j).even?
+          render_grid[i][j] = render_grid[i][j].on_white
+        else
+          render_grid[i][j] = render_grid[i][j].on_light_white
+        end
+      end
+    end
+    render_grid
+  end
+
+  def display
+    colored_background.map do |row|
+      row.join
+    end.join("\n")
+  end
+
 
 
 
   #beginning placement methods
   # will be private
-  def place_pawns
-    8.times do |i|
-      Pawn.new(:white, [1,i], self)
-      Pawn.new(:black, [6,i], self)
-    end
-  end
+#  private
+      def place_pawns
+        8.times do |i|
+          Pawn.new(:white, [1,i], self)
+          Pawn.new(:black, [6,i], self)
+        end
+      end
 
-  def place_bishops
-    Bishop.new(:white, [0,2], self)
-    Bishop.new(:white, [0,5], self)
-    Bishop.new(:black, [7,2], self)
-    Bishop.new(:black, [7,5], self)
-  end
+      def place_bishops
+        Bishop.new(:white, [0,2], self)
+        Bishop.new(:white, [0,5], self)
+        Bishop.new(:black, [7,2], self)
+        Bishop.new(:black, [7,5], self)
+      end
 
-  def place_knights
-    Knight.new(:white, [0,1], self)
-    Knight.new(:white, [0,6], self)
-    Knight.new(:black, [7,1], self)
-    Knight.new(:black, [7,6], self)
-  end
+      def place_knights
+        Knight.new(:white, [0,1], self)
+        Knight.new(:white, [0,6], self)
+        Knight.new(:black, [7,1], self)
+        Knight.new(:black, [7,6], self)
+      end
 
-  def place_rooks
-    Rook.new(:white, [0,0], self)
-    Rook.new(:white, [0,7], self)
-    Rook.new(:black, [7,0], self)
-    Rook.new(:black, [7,7], self)
-  end
+      def place_rooks
+        Rook.new(:white, [0,0], self)
+        Rook.new(:white, [0,7], self)
+        Rook.new(:black, [7,0], self)
+        Rook.new(:black, [7,7], self)
+      end
 
-  def place_kings
-    King.new(:white, [0,3], self)
-    King.new(:black, [7,3], self)
-  end
+      def place_kings
+        King.new(:white, [0,3], self)
+        King.new(:black, [7,3], self)
+      end
 
-  def place_queens
-    Queen.new(:white, [0,4], self)
-    Queen.new(:black, [7,4], self)
-  end
+      def place_queens
+        Queen.new(:white, [0,4], self)
+        Queen.new(:black, [7,4], self)
+      end
 
 end
