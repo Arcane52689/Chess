@@ -77,9 +77,11 @@ class Board
     result
   end
 
-  def move(start, end_pos)
+  def move(start, end_pos, color)
     raise "NO PIECE HERE" if self[start].nil?
     piece = self[start]
+    #raise "DON'T TOUCH MY STUFF" unless piece.color == color
+    p piece.valid_moves
     raise "CAN'T MOVE THERE" unless piece.valid_moves.include?(end_pos)
     self[end_pos] = piece
     piece.move(end_pos)
@@ -174,7 +176,7 @@ class Board
 
   def place_queens
     Queen.new(:white, [0,4], self)
-    Queen.new(:white, [7,4], self)
+    Queen.new(:black, [7,4], self)
   end
 
 end

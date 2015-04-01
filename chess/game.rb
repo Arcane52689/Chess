@@ -1,5 +1,5 @@
 require_relative 'load_file.rb'
-
+require "Byebug"
 class Game
 
   attr_accessor  :player1, :player2, :current_player, :board
@@ -26,10 +26,10 @@ class Game
   def play
     loop do
       break if game_over?
-      display_board
       play_turn
       self.current_player = next_player
     end
+    winner
   end
 
   def next_player
@@ -47,11 +47,21 @@ class Game
 
   def play_turn
     begin
+      display_board
+      puts "CHECK!" if board.in_check?(current_player.color)
       move = get_move
-      board.move(move[0],move[1])
+      board.move(move[0],move[1], current_player.color)
     rescue
-      puts "INCORRECT MOVE"
+       p $!, *$@
       retry
+    end
+  end
+
+  def winner
+    if board.checkmate?(current_player.color)
+      puts "CHECKMATE! #{next_player.name} WINS!"
+    else
+      puts "IT'S A DRAW!"
     end
   end
 

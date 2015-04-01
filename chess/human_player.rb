@@ -26,7 +26,7 @@ class HumanPlayer
 
   def ask_move(prompt)
     puts prompt
-    gets.chomp.split("")
+    gets.chomp.upcase.split("")
   end
 
   def get_move

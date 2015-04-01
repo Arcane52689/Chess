@@ -12,11 +12,19 @@ class Pawn < Piece
     result = [[x + dx, y]]
 
     result << [x + 2 * dx, y] unless @moved
+    result.select! { |result| check_move(result) }
     # result << [x + 1, y + 1] if board[[x + 1, y + 1]].enemy?
     # result << [x - 1, y + 1] if board[[x - 1, y + 1]].enemy?
     result.concat(diagonals)
     result
   end
+
+
+
+  def check_move(move)
+    in_board?(move) && !board.occupied?(move)
+  end
+
 
   def move(new_position)
     @moved = true
