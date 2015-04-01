@@ -27,7 +27,7 @@ class Pawn < Piece
   end
 
   def check_move?(move)
-    in_board?(move) && !board.occupied?(move)
+    board.in_board?(move) && !board.occupied?(move)
   end
 
   def move(new_position)

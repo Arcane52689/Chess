@@ -1,6 +1,7 @@
 require_relative 'load_file.rb'
 require "Byebug"
 class Game
+
   CONVERTER = {
     0 => "A",
     1 => "B",
@@ -11,7 +12,6 @@ class Game
     6 => "G",
     7 => "H"
   }
-
 
   attr_accessor  :player1, :player2, :current_player, :board
 
@@ -27,7 +27,7 @@ class Game
     player1.set_color(:white)
     player2.set_color(:black)
     @current_player = player1
-    @board = Board.game_board
+    @board = Board.default_game_board
   end
 
   def get_move

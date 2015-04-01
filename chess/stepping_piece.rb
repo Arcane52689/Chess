@@ -16,7 +16,7 @@ class SteppingPiece < Piece
   end
 
   def check_space(pos)
-    in_board?(pos) &&
+    board.in_board?(pos) &&
       (!board.occupied?(pos) || !same_color?(board[pos]))
   end
 

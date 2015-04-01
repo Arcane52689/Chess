@@ -27,7 +27,7 @@ class SlidingPiece < Piece
     temp_moves = []
     1.upto(7) do |multiplier|
       new_position = [x + dx * multiplier, y + dy * multiplier]
-      return temp_moves unless in_board?(new_position)
+      return temp_moves unless board.in_board?(new_position)
       temp_moves << new_position
       return temp_moves if board.occupied?(new_position)
     end
