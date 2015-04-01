@@ -10,7 +10,7 @@ class Piece
   end
 
   def moves
-    raise "Why are you here?"
+    raise NotImplementedError.new "Why are you here?"
   end
 
   def same_color?(other_piece)
@@ -22,7 +22,7 @@ class Piece
   end
 
   def dup(dup_board)
-    dup_board[@position] = self.class.new(@color, @position, dup_board)
+    self.class.new(@color, @position, dup_board)
   end
 
   def move_into_check?(move_position)

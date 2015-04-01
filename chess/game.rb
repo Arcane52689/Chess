@@ -16,6 +16,17 @@ class Game
 
   attr_accessor  :player1, :player2, :current_player, :board
 
+  def self.new_game
+    player1 = HumanPlayer.new(ask_name)
+    player2 = HumanPlayer.new(ask_name)
+    Game.new(player1, player2).play
+  end
+
+  def self.ask_name
+    puts "Please enter your name"
+    gets.chomp.capitalize
+  end
+
   def self.testing
     sj = HumanPlayer.new("sj")
     thomas  = HumanPlayer.new("thomas")
