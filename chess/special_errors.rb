@@ -1,7 +1,2 @@
-
-
-
 class InvalidInputError < StandardError
-
-
 end

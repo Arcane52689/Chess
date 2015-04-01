@@ -1,7 +1,7 @@
 
 class HumanPlayer
 
-  attr_accessor :color, :name
+  attr_accessor :color, :name, :board
 
   MOVE_HASH = {
     "A" => 0,
@@ -28,7 +28,7 @@ class HumanPlayer
     puts prompt
     gets.chomp.upcase.split("")
   end
-  
+
   def get_start
     convert_position(ask_move(START_PROMPT))
   end
@@ -36,7 +36,6 @@ class HumanPlayer
   def get_end
     convert_position(ask_move(END_PROMPT))
   end
-
 
   def convert_position(position)
     col = MOVE_HASH[position[0]]

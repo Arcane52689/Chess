@@ -20,7 +20,4 @@ class SteppingPiece < Piece
       (!board.occupied?(pos) || !same_color?(board[pos]))
   end
 
-
-
-
 end

@@ -1,6 +1,7 @@
 require_relative 'load_file.rb'
-require "Byebug"
+require "Colorize"
 class Game
+  INVALID_MOVE_ERROR = "NO VALID MOVES AT THAT SPOT".colorize(:red)
 
   CONVERTER = {
     0 => "A",
@@ -24,26 +25,18 @@ class Game
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
+    @current_player = player1
+    set_colors
+    set_board
+  end
+
+  def set_colors
     player1.set_color(:white)
     player2.set_color(:black)
-    @current_player = player1
+  end
+
+  def set_board
     @board = Board.default_game_board
-  end
-
-  def get_move
-    start_pos = current_player.get_start
-    if converted_moves(board[start_pos]).empty?
-      raise InvalidInputError.new "NO VALID MOVES"
-    end
-    p converted_moves(board[start_pos])
-    end_pos = current_player.get_end
-    [start_pos, end_pos]
-  end
-
-  def converted_moves(piece)
-    piece.valid_moves.map do |row,col|
-      CONVERTER[col] + (row + 1).to_s
-    end
   end
 
   def play
@@ -52,20 +45,8 @@ class Game
       play_turn
       self.current_player = next_player
     end
+
     winner
-  end
-
-  def next_player
-    current_player == player1 ? player2 : player1
-  end
-
-  def game_over?
-    board.no_valid_moves_left?(current_player.color)
-  end
-
-  def display_board
-    puts board.display
-    puts "#{current_player.name}, it's your turn"
   end
 
   def play_turn
@@ -79,6 +60,36 @@ class Game
        # p $!, *$@
       retry
     end
+  end
+
+  def get_move
+    start_pos = current_player.get_start
+    if converted_moves(board[start_pos]).empty?
+      raise InvalidInputError.new INVALID_MOVE_ERROR
+    end
+    p converted_moves(board[start_pos])
+    end_pos = current_player.get_end
+
+    [start_pos, end_pos]
+  end
+
+  def converted_moves(piece)
+    piece.valid_moves.map do |row,col|
+      CONVERTER[col] + (row + 1).to_s
+    end
+  end
+
+  def next_player
+    current_player == player1 ? player2 : player1
+  end
+
+  def game_over?
+    board.no_valid_moves_left?(current_player.color)
+  end
+
+  def display_board
+    puts board.display
+    puts "#{current_player.name}, it's your turn"
   end
 
   def winner

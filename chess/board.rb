@@ -50,33 +50,14 @@ class Board
     grid[x][y] = piece
   end
 
-  def in_check?(color)
-    position = find_king(color)
-    pieces = find_pieces(swap(color))
-    pieces.any? { |piece| piece.moves.include?(position) }
-  end
-
-  def swap(color)
-    color == :white ? :black : :white
-  end
-
-  def get_pieces
-    grid.flatten.compact
-  end
-
-  def find_pieces(color)
-    get_pieces.select { |piece| piece.color == color }
-  end
-
-  def find_king(color)
-    king = find_pieces(color).select { |piece| piece.is_a?(King) }.first
-    king.position
-  end
-
   def move(start, end_pos, color)
     piece = self[start]
-    raise "DON'T TOUCH MY STUFF" unless piece.color == color
-    raise "CAN'T MOVE THERE" unless piece.valid_moves.include?(end_pos)
+    unless piece.color == color
+      raise InvalidInputError.new "DON'T TOUCH MY STUFF".colorize(:red)
+    end
+    unless piece.valid_moves.include?(end_pos)
+      raise InvalidInputError.new "CAN'T MOVE THERE!".colorize(:red)
+    end
     self[end_pos] = piece
     piece.move(end_pos)
     self[start] = nil
@@ -95,10 +76,8 @@ class Board
 
   def dup
     dup_board = Board.new
-    grid.each do |row|
-      row.each do |piece|
-        piece.dup(dup_board) unless piece.nil?
-      end
+    get_pieces.each do |piece|
+      piece.dup(dup_board) unless piece.nil?
     end
     dup_board
   end
@@ -112,26 +91,44 @@ class Board
     !self[pos].nil?
   end
 
-  def render
-    grid.map { |row| render_row(row) }
-  end
-
-  def render_row(row)
-    row.map do |piece|
-      if piece.nil?
-        " "
-      else
-        piece.render
-      end
-    end
-  end
-
   def checkmate?(color)
     in_check?(color) || no_valid_moves_left?(color)
   end
 
   def no_valid_moves_left?(color)
     find_pieces(color).none? { |piece| piece.valid_moves.any? }
+  end
+
+  def in_check?(color)
+    king = find_king(color)
+    pieces = find_pieces(swap(color))
+    pieces.any? { |piece| piece.moves.include?(king.position) }
+  end
+
+  def find_king(color)
+    find_pieces(color).select { |piece| piece.is_a?(King) }.first
+  end
+
+  def find_pieces(color)
+    get_pieces.select { |piece| piece.color == color }
+  end
+
+  def get_pieces
+    grid.flatten.compact
+  end
+
+  def swap(color)
+    color == :white ? :black : :white
+  end
+
+  def display
+    result =[UTF_LETTERS]
+
+    colored_background.each_with_index do |row,idx|
+      result << row.unshift((idx + 1).to_s).join
+    end
+    result.join("\n")
+    result
   end
 
   def colored_background
@@ -148,14 +145,14 @@ class Board
     render_grid
   end
 
-  def display
-    result =[UTF_LETTERS]
+  def render
+    grid.map { |row| render_row(row) }
+  end
 
-    colored_background.each_with_index do |row,idx|
-      result << row.unshift((idx + 1).to_s).join
+  def render_row(row)
+    row.map do |piece|
+      piece.nil? ? " " : piece.render
     end
-    result.join("\n")
-    result
   end
 
 
