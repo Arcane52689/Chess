@@ -1,0 +1,7 @@
+
+
+
+class InvalidInputError < StandardError
+
+
+end

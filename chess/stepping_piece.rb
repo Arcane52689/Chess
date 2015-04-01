@@ -12,7 +12,7 @@ class SteppingPiece < Piece
   end
 
   def move_dirs
-    raise NotImplementedError
+    raise NotImplementedError.new
   end
 
   def check_space(pos)

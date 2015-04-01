@@ -32,7 +32,9 @@ class Game
 
   def get_move
     start_pos = current_player.get_start
-    raise "NO VALID MOVES" if converted_moves(board[start_pos]).empty?
+    if converted_moves(board[start_pos]).empty?
+      raise InvalidInputError.new "NO VALID MOVES"
+    end
     p converted_moves(board[start_pos])
     end_pos = current_player.get_end
     [start_pos, end_pos]
@@ -73,6 +75,7 @@ class Game
       move = get_move
       board.move(move[0],move[1], current_player.color)
     rescue
+      p $!
        # p $!, *$@
       retry
     end
