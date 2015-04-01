@@ -5,19 +5,19 @@ class SteppingPiece < Piece
     x, y = position
     move_dirs.each do |(dx, dy)|
       new_position = [x + dx, y + dy]
-      if in_board?(new_position)
-        result << new_position if check_space(new_position)
-      end
+      result << new_position if check_space(new_position)
     end
 
     result
   end
 
   def move_dirs
+    raise "NOT IMPLEMENTED"
   end
 
   def check_space(pos)
-    !board.occupied?(pos) || !same_color?(board[pos])
+    in_board?(new_position) &&
+      (!board.occupied?(pos) || !same_color?(board[pos]))
   end
 
 
