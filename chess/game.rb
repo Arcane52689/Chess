@@ -68,7 +68,7 @@ class Game
       board.move(move[0],move[1], current_player.color)
     rescue
       p $!
-       # p $!, *$@
+      #shows all errors
       retry
     end
   end

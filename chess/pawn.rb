@@ -21,13 +21,15 @@ class Pawn < Piece
   def diagonals
     x, y = position
     diagonal_moves = [[x + dx, y + 1], [x + dx, y - 1]]
-    diagonal_moves.select do |move|
-      board.occupied?(move) && !same_color?(board[move])
-    end
+    diagonal_moves.select { |move| check_diagonal?(move) }
   end
 
   def check_move?(move)
     board.in_board?(move) && !board.occupied?(move)
+  end
+
+  def check_diagonal?(move)
+    board.occupied?(move) && !same_color?(board[move])
   end
 
   def move(new_position)

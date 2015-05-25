@@ -6,7 +6,7 @@ class SlidingPiece < Piece
     move_dirs.each do |(dx, dy)|
       temp_moves = moves_in_dirs(dx,dy)
       next if temp_moves.empty?
-      temp_moves.pop if is_ally?(temp_moves.last)
+      temp_moves.pop if is_ally?(temp_moves.last) 
       result.concat(temp_moves)
     end
 
