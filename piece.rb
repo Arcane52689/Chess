@@ -44,4 +44,19 @@ class Piece
     [color, position].inspect
   end
 
+  def moves_for_check
+    valid_moves.select { |move| move_for_check(move) }
+  end
+
+  def move_for_check(move_position)
+    dup_board = board.dup
+
+    dup_board.move!(@position, move_position)
+    dup_board.in_check?(opposite_color)
+  end
+
+  def opposite_color
+    color == :white ? :black : :white
+  end
+
 end

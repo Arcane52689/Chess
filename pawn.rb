@@ -1,4 +1,4 @@
-require 'byebug'
+
 class Pawn < Piece
   attr_accessor :dx
   def initialize(color,position,board)
@@ -37,10 +37,18 @@ class Pawn < Piece
   def move(new_position)
     @moved = true
     super
+    if position[0] == 0 || position[0] == 7
+      promote
+    end
   end
 
   def render
     color == :white ? "\u2659" : "\u265F"
+  end
+
+  def promote
+    Queen.new(color, position, board)
+
   end
 
 end

@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 require_relative 'load_file.rb'
 require "Colorize"
 class Game
@@ -104,8 +103,9 @@ class Game
   end
 
   def winner
+    puts board.display
     if board.checkmate?(current_player.color)
-      puts "CHECKMATE! #{next_player.name} WINS!"
+      puts "CHECKMATE! Congrats! #{next_player.name}!  #{next_player.color}  WINS!"
     else
       puts "IT'S A DRAW!"
     end

@@ -98,7 +98,7 @@ class Board
 
 
   def checkmate?(color)
-    in_check?(color) || no_valid_moves_left?(color)
+    in_check?(color) && no_valid_moves_left?(color)
   end
 
   def no_valid_moves_left?(color)
@@ -110,6 +110,8 @@ class Board
     pieces = find_pieces(swap(color))
     pieces.any? { |piece| piece.moves.include?(king.position) }
   end
+
+
 
   def find_king(color)
     find_pieces(color).select { |piece| piece.is_a?(King) }.first

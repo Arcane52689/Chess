@@ -1,7 +1,7 @@
 
 class ComputerPlayer
 
-  attr_accessor :color, :name, :board
+  attr_accessor :color, :name, :board, :status
 
   def initialize()
     @name = "CompChess1009"
@@ -28,7 +28,9 @@ class ComputerPlayer
   end
 
   def get_end
-    if @current_piece.capturing_moves.any?
+    if status == "check"
+      return @current_piece.moves_for_check.first
+    elsif status == "capture"
       return @current_piece.capturing_moves.first
     else
       return @current_piece.valid_moves.shuffle.first
@@ -36,9 +38,14 @@ class ComputerPlayer
   end
 
   def pick_piece
-    if capturing_pieces.any?
+    if into_check_pieces.any?
+      self.status = "check"
+      return into_check_pieces.shuffle.first
+    elsif capturing_pieces.any?
+      self.status = "capture"
       return capturing_pieces.shuffle.first
     else
+      self.status = "normal"
       return valid_pieces.shuffle.first
     end
   end
@@ -57,6 +64,9 @@ class ComputerPlayer
     pieces.select { |piece| piece.capturing_moves.any? }
   end
 
+  def into_check_pieces
+    pieces.select { |piece| piece.moves_for_check.any? }
+  end
 
   def convert_position(position)
     col = MOVE_HASH[position[0]]
