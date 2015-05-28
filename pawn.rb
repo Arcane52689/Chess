@@ -1,3 +1,4 @@
+require 'byebug'
 class Pawn < Piece
   attr_accessor :dx
   def initialize(color,position,board)
@@ -25,11 +26,12 @@ class Pawn < Piece
   end
 
   def check_move?(move)
+
     board.in_board?(move) && !board.occupied?(move)
   end
 
   def check_diagonal?(move)
-    board.occupied?(move) && !same_color?(board[move])
+    board.in_board?(move) && board.occupied?(move) && !same_color?(board[move])
   end
 
   def move(new_position)

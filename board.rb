@@ -1,7 +1,7 @@
 require "Colorize"
 
 class Board
-  attr_accessor :grid
+  attr_accessor :grid, :last_capture
 
   UTF_LETTERS = [
     " ",
@@ -37,7 +37,7 @@ class Board
 
   def initialize(grid= Array.new(8) { Array.new(8) })
     @grid = grid
-
+    @last_capture = 0
   end
 
   def [](pos)
@@ -57,6 +57,11 @@ class Board
     end
     unless piece.valid_moves.include?(end_pos)
       raise InvalidInputError.new "CAN'T MOVE THERE!".colorize(:red)
+    end
+    if self.occupied?(end_pos)
+      self.last_capture = 0
+    else
+      self.last_capture += 1
     end
     self[end_pos] = piece
     piece.move(end_pos)
@@ -90,6 +95,7 @@ class Board
   def occupied?(pos)
     !self[pos].nil?
   end
+
 
   def checkmate?(color)
     in_check?(color) || no_valid_moves_left?(color)
@@ -155,6 +161,10 @@ class Board
     end
   end
 
+
+  def stalemate
+    last_capture > 50
+  end
 
 
 

@@ -36,6 +36,10 @@ class Piece
     moves.select { |move| !move_into_check?(move) }
   end
 
+  def capturing_moves
+    valid_moves.select { |move| board.occupied?(move) && board[move].color != color }
+  end
+
   def inspect
     [color, position].inspect
   end

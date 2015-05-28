@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative 'load_file.rb'
 require "Colorize"
 class Game
@@ -16,7 +18,7 @@ class Game
 
   attr_accessor  :player1, :player2, :current_player, :board
 
-  def self.new_game
+  def self.human_game
     player1 = HumanPlayer.new(ask_name)
     player2 = HumanPlayer.new(ask_name)
     Game.new(player1, player2).play
@@ -24,7 +26,7 @@ class Game
 
   def self.ask_name
     puts "Please enter your name"
-    gets.chomp.capitalize
+    STDIN.gets.chomp.capitalize
   end
 
   def self.testing
@@ -32,6 +34,19 @@ class Game
     thomas  = HumanPlayer.new("thomas")
     Game.new(sj, thomas).play
   end
+
+  def self.comp_vs_human
+    player1 = HumanPlayer.new(ask_name)
+    player2 = ComputerPlayer.new()
+    Game.new(player1, player2).play
+  end
+
+  def self.comp_game
+    player1 = ComputerPlayer.new()
+    player2 = ComputerPlayer.new()
+    Game.new(player1, player2).play
+  end
+
 
   def initialize(player1, player2)
     @player1 = player1
@@ -48,6 +63,8 @@ class Game
 
   def set_board
     @board = Board.default_game_board
+    player1.set_board(board)
+    player2.set_board(board)
   end
 
   def play
@@ -61,33 +78,16 @@ class Game
   end
 
   def play_turn
-    begin
+    # begin
       display_board
       puts "CHECK!" if board.in_check?(current_player.color)
-      move = get_move
+      move = current_player.get_move
       board.move(move[0],move[1], current_player.color)
-    rescue
-      p $!
-      #shows all errors
-      retry
-    end
-  end
-
-  def get_move
-    start_pos = current_player.get_start
-    if converted_moves(board[start_pos]).empty?
-      raise InvalidInputError.new INVALID_MOVE_ERROR
-    end
-    p converted_moves(board[start_pos])
-    end_pos = current_player.get_end
-
-    [start_pos, end_pos]
-  end
-
-  def converted_moves(piece)
-    piece.valid_moves.map do |row,col|
-      CONVERTER[col] + (row + 1).to_s
-    end
+    # rescue
+    #   p $!
+    #   #shows all errors
+    #   retry
+    # end
   end
 
   def next_player
@@ -95,7 +95,7 @@ class Game
   end
 
   def game_over?
-    board.no_valid_moves_left?(current_player.color)
+    board.no_valid_moves_left?(current_player.color) || board.stalemate
   end
 
   def display_board
@@ -114,5 +114,15 @@ class Game
 end
 
 
-
-Game.new_game()
+if ARGV.length > 0
+  arg = ARGV.first
+  if arg == "human"
+    Game.human_game
+  elsif arg == "comp"
+    Game.comp_game
+  else
+    Game.comp_vs_human
+  end
+else
+  Game.comp_vs_human
+end
