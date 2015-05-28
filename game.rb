@@ -112,3 +112,7 @@ class Game
   end
 
 end
+
+
+
+Game.new_game()
