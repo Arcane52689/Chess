@@ -82,11 +82,11 @@ class Game
       puts "CHECK!" if board.in_check?(current_player.color)
       move = current_player.get_move
       board.move(move[0],move[1], current_player.color)
-    # rescue
-    #   p $!
-    #   #shows all errors
-    #   retry
-    # end
+    rescue
+      p $!
+      #shows all errors
+      retry
+    end
   end
 
   def next_player
